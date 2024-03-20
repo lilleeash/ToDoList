@@ -11,6 +11,7 @@ final class ListViewController: UIViewController {
     
     private lazy var contentView: DisplayListView = {
         let view = ListView()
+        view.delegate = self
         return view
     }()
     
@@ -26,12 +27,42 @@ final class ListViewController: UIViewController {
 
 }
 
+extension ListViewController: ListViewDelegate {
+    func didSelectRow(_ model: ListModel) {
+        let controller: UIViewController = TaskDetailViewController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func searchBar(textDidChange searchText: String) {
+        var filtered: [ListModel] = []
+        
+        if searchText.isEmpty {
+            contentView.configure(with: ListModelGenerator.getData())
+        }
+        
+        for task in ListModelGenerator.getData() {
+            if task.title.lowercased().contains(searchText.lowercased()) {
+                filtered.append(task)
+            }
+        }
+        
+        contentView.configure(with: filtered)
+    }
+}
+
 private extension ListViewController {
     
     private func setUpNavigation() {
         navigationItem.title = "ToDo list"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = .init(systemItem: .add)
+        navigationItem.rightBarButtonItem = .init(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didAddButtonTapped)
+        )
+    }
+    
+    @objc private func didAddButtonTapped(sender: UIButton) {
+        let controller: UIViewController = AddTaskViewController()
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
-

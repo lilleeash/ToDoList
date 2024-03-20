@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol ListTableManagerDelegate {
+    func didSelectRow(_ model: ListModel)
+}
+
 final class ListTableManager: NSObject {
     var tableData: [ListModel] = []
+    var delegate: ListTableManagerDelegate?
 }
 
 // MARK: UITableViewDelegate, UITableViewDataSource
@@ -38,5 +43,17 @@ extension ListTableManager: UITableViewDelegate, UITableViewDataSource {
         cell.configure(with: model)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = tableData[indexPath.row]
+        delegate?.didSelectRow(model)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        return 65
     }
 }
