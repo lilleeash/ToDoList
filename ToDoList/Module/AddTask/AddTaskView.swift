@@ -11,6 +11,10 @@ protocol AddTaskViewDelegate {
     func didSaveButtonTapped()
 }
 
+protocol AddTaskDisplayView: UIView {
+    func setUpPickerData(with model: [AddTaskPickerData])
+}
+
 final class AddTaskView: UIView {
     
     private enum Constants {
@@ -59,10 +63,25 @@ final class AddTaskView: UIView {
         let view = UIPickerView()
         view.backgroundColor = .white
         view.layer.cornerRadius = Constants.cornerRadius
+        view.delegate = dataPickerManager
+        view.dataSource = dataPickerManager
         return view
     }()
     
+    private lazy var dataPickerManager = AddTaskPickerManager()
+    
     private lazy var dataPicker = UIDatePicker()
+    
+    private let saveButtonAnimation: CASpringAnimation = {
+        let animation = CASpringAnimation(keyPath: "transform.scale")
+        animation.fromValue = 1
+        animation.toValue = 1.03
+        animation.duration = 0.5
+        animation.damping = 1.5
+        animation.mass = 5
+        animation.autoreverses = true
+        return animation
+    }()
     
     init() {
         super.init(frame: .zero)
@@ -76,11 +95,19 @@ final class AddTaskView: UIView {
     }
 }
 
+// MARK: AddTaskDisplayView
+extension AddTaskView: AddTaskDisplayView {
+    func setUpPickerData(with model: [AddTaskPickerData]) {
+        dataPickerManager.dataPicker = model
+    }
+}
+
 // MARK: private
 private extension AddTaskView {
     
     @objc private func didSaveButtonTapped(sender: UIButton) {
         delegate?.didSaveButtonTapped()
+        saveButton.layer.add(saveButtonAnimation, forKey: "saveButtonAnimation")
     }
     
     private func addSubviews() {

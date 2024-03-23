@@ -9,7 +9,7 @@ import UIKit
 
 final class AddTaskViewController: UIViewController {
     
-    private lazy var contentView: AddTaskView = {
+    private lazy var contentView: AddTaskDisplayView = {
         let view = AddTaskView()
         view.delegate = self
         return view
@@ -21,6 +21,7 @@ final class AddTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentView.setUpPickerData(with: AddTaskPickerData.allCases)
     }
 }
 

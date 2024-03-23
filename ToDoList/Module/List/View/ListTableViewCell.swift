@@ -25,6 +25,14 @@ final class ListTableViewCell: UITableViewCell {
         return view
     }()
     
+    private let stack: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 4
+        view.alignment = .leading
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubviews()
@@ -46,31 +54,26 @@ private extension ListTableViewCell {
     private func addSubviews() {
         [titleLabel, descriptionLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
+            stack.addArrangedSubview($0)
+        }
+        
+        [stack].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
         }
     }
     
     private func setUpConstraints() {
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor
-                .constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            titleLabel.trailingAnchor
-                .constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            titleLabel.topAnchor
-                .constraint(equalTo: topAnchor, constant: Constants.padding),
-            titleLabel.bottomAnchor
-                .constraint(equalTo: descriptionLabel.topAnchor, constant: -Constants.padding)
-        ])
         
         NSLayoutConstraint.activate([
-            descriptionLabel.leadingAnchor
+            stack.leadingAnchor
                 .constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            descriptionLabel.trailingAnchor
+            stack.trailingAnchor
                 .constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            descriptionLabel.bottomAnchor
-                .constraint(equalTo: bottomAnchor, constant: -Constants.padding),
-            descriptionLabel.topAnchor
-                .constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.padding),
+            stack.topAnchor
+                .constraint(equalTo: topAnchor, constant: Constants.padding),
+            stack.bottomAnchor
+                .constraint(equalTo: bottomAnchor, constant: -Constants.padding)
         ])
     }
 }

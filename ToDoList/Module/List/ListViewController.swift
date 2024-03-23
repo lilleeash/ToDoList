@@ -29,7 +29,8 @@ final class ListViewController: UIViewController {
 
 extension ListViewController: ListViewDelegate {
     func didSelectRow(_ model: ListModel) {
-        let controller: UIViewController = TaskDetailViewController()
+        let controller: TaskDetailViewControllerProtocol = TaskDetailViewController()
+        controller.configure(with: model)
         navigationController?.pushViewController(controller, animated: true)
     }
     

@@ -5,10 +5,10 @@
 //  Created by Darya Zhitova on 20.03.2024.
 //
 
-enum AddTaskPickerData {
-    case family
-    case study
-    case work
-    case frieds
-    case other
+enum AddTaskPickerData: String, CaseIterable {
+    case family = "Family"
+    case study = "Study"
+    case work = "Work"
+    case frieds = "Friends"
+    case other = "Other"
 }

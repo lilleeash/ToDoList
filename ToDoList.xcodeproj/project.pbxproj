@@ -24,6 +24,7 @@
 		9A64180F2BAB4B3F003AB7CC /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64180E2BAB4B3F003AB7CC /* TaskDetailViewController.swift */; };
 		9A6418112BAB4B47003AB7CC /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6418102BAB4B47003AB7CC /* TaskDetailView.swift */; };
 		9A6418132BAB55AF003AB7CC /* AddTaskPickerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6418122BAB55AF003AB7CC /* AddTaskPickerData.swift */; };
+		9AC9C6172BADEEBB006EB368 /* AddTaskPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC9C6162BADEEBB006EB368 /* AddTaskPickerManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		9A64180E2BAB4B3F003AB7CC /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		9A6418102BAB4B47003AB7CC /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		9A6418122BAB55AF003AB7CC /* AddTaskPickerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskPickerData.swift; sourceTree = "<group>"; };
+		9AC9C6162BADEEBB006EB368 /* AddTaskPickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskPickerManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				9A64180A2BAB4B17003AB7CC /* AddTaskViewController.swift */,
 				9A64180C2BAB4B2F003AB7CC /* AddTaskView.swift */,
 				9A6418122BAB55AF003AB7CC /* AddTaskPickerData.swift */,
+				9AC9C6162BADEEBB006EB368 /* AddTaskPickerManager.swift */,
 			);
 			path = AddTask;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				9A6418112BAB4B47003AB7CC /* TaskDetailView.swift in Sources */,
 				9A20F0C82BA4B81A00C7AE62 /* ListTableViewCell.swift in Sources */,
 				9A6418072BAB4334003AB7CC /* ListSearchManager.swift in Sources */,
+				9AC9C6172BADEEBB006EB368 /* AddTaskPickerManager.swift in Sources */,
 				9A20F0CE2BA4BD7200C7AE62 /* ListTableManager.swift in Sources */,
 				9A64180D2BAB4B2F003AB7CC /* AddTaskView.swift in Sources */,
 				9A20F0CC2BA4B8BD00C7AE62 /* UITableViewCell+Ext.swift in Sources */,
