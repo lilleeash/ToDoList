@@ -17,8 +17,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let sceen = (scene as? UIWindowScene) else { return }
+        
+        let name: String = "ListCoreDataModel"
+        
+        let coreDataManager: CoreDataManagerProtocol = CoreDataManager(persistentContainerName: name)
+        
+        let provider: ListDataProviderProtocol = ListDataProvider(coreDataManager: coreDataManager)
+        
+        let viewController = ListViewController(provider: provider)
+        
         window = UIWindow(windowScene: sceen)
-        window?.rootViewController = UINavigationController(rootViewController: ListViewController())
+        window?.rootViewController = UINavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()
         
     }
@@ -31,8 +40,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -46,12 +53,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-
-        // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
 

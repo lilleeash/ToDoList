@@ -13,41 +13,50 @@ protocol TaskDetailDisplayView: UIView {
 
 final class TaskDetailView: UIView {
     
-    private lazy var categoryLabel: UILabel = {
-        let view = UILabel()
-        view.font = .systemFont(ofSize: 15)
-        view.textColor = .white
+    private enum Constants {
+        static let cornerRadius: CGFloat = 15
+    }
+    
+    // MARK: Backgrounds
+    
+    private lazy var categoryBackground: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Constants.cornerRadius
         return view
     }()
     
-    private lazy var isCompletedLabel: UILabel = {
-        let view = UILabel()
-        view.font = .systemFont(ofSize: 15)
-        view.textColor = .white
+    private lazy var statusBackground: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Constants.cornerRadius
         return view
     }()
     
-    private lazy var image: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "person.fill"))
-        return imageView
-    }()
-    
-    private let stack: UIStackView = {
-        let view = UIStackView()
-        view.axis = .horizontal
-        view.spacing = 4
-        view.alignment = .leading
+    private lazy var descriptionBackground: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Constants.cornerRadius
+        view.backgroundColor = .white
         return view
     }()
+    
+    private lazy var dateBackground: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Constants.cornerRadius
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    // MARK: Button
     
     private lazy var saveButton: UIButton = {
         let view = UIButton()
         view.backgroundColor = .systemBlue
         view.titleLabel?.textColor = .white
-        view.setTitle("Save", for: .normal)
-        view.layer.cornerRadius = 10
+        view.setTitle("Complete task", for: .normal)
+        view.layer.cornerRadius = Constants.cornerRadius
         return view
     }()
+    
+    // MARK: Animation
     
     private let saveButtonAnimation: CASpringAnimation = {
         let animation = CASpringAnimation(keyPath: "transform.scale")
@@ -59,11 +68,7 @@ final class TaskDetailView: UIView {
         animation.autoreverses = true
         return animation
     }()
-    
-    private lazy var descriptionLabel: UILabel = {
-        let view = UILabel()
-        return view
-    }()
+
     
     init() {
         super.init(frame: .zero)
@@ -80,16 +85,118 @@ final class TaskDetailView: UIView {
 extension TaskDetailView: TaskDetailDisplayView {
     func configure(with model: ListModel) {
         
+        statusBackground.backgroundColor = model.isCompleted ? .systemGreen : .systemRed
+        
+        switch model.category {
+        case .family:
+            categoryBackground.backgroundColor = .systemCyan
+        case .frieds:
+            categoryBackground.backgroundColor = .systemPurple
+        case .study:
+            categoryBackground.backgroundColor = .systemGreen
+        case .work:
+            categoryBackground.backgroundColor = .systemOrange
+        case .other:
+            categoryBackground.backgroundColor = .systemYellow
+        }
     }
 }
 
 private extension TaskDetailView {
     private func addSubviews() {
-        
+        [
+            categoryBackground,
+            statusBackground,
+            descriptionBackground,
+            dateBackground,
+            saveButton
+        ].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            addSubview($0)
+        }
     }
     
     private func setUpConstraints() {
+        // MARK: Category constraint
         
+        NSLayoutConstraint.activate([
+            categoryBackground.heightAnchor
+                .constraint(equalToConstant: 50),
+            
+            categoryBackground.widthAnchor
+                .constraint(equalTo: widthAnchor, multiplier: 0.43),
+            
+            categoryBackground.leadingAnchor
+                .constraint(equalTo: leadingAnchor, constant: 16),
+            
+            categoryBackground.topAnchor
+                .constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
+        ])
+        
+        // MARK: Status constraint
+        
+        NSLayoutConstraint.activate([
+            statusBackground.heightAnchor
+                .constraint(equalToConstant: 50),
+            
+            statusBackground.widthAnchor
+                .constraint(equalTo: widthAnchor, multiplier: 0.43),
+            
+            statusBackground.trailingAnchor
+                .constraint(equalTo: trailingAnchor, constant: -16),
+            
+            statusBackground.topAnchor
+                .constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
+        ])
+        
+        // MARK: Description constraint
+        
+        NSLayoutConstraint.activate([
+            descriptionBackground.heightAnchor
+                .constraint(equalToConstant: 100),
+            
+            descriptionBackground.leadingAnchor
+                .constraint(equalTo: leadingAnchor, constant: 16),
+            
+            descriptionBackground.trailingAnchor
+                .constraint(equalTo: trailingAnchor, constant: -16),
+            
+            descriptionBackground.topAnchor
+                .constraint(equalTo: categoryBackground.bottomAnchor, constant: 16),
+            
+            descriptionBackground.bottomAnchor
+                .constraint(equalTo: dateBackground.topAnchor, constant: -16)
+        ])
+        
+        // MARK: Date constraint
+        
+        NSLayoutConstraint.activate([
+            dateBackground.heightAnchor.constraint(equalToConstant: 50),
+            
+            dateBackground.leadingAnchor
+                .constraint(equalTo: leadingAnchor, constant: 16),
+            
+            dateBackground.trailingAnchor
+                .constraint(equalTo: trailingAnchor, constant: -16),
+            
+            dateBackground.topAnchor
+                .constraint(equalTo: descriptionBackground.bottomAnchor, constant: 16),
+        ])
+        
+        // MARK: Button
+        
+        NSLayoutConstraint.activate([
+            saveButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            saveButton.leadingAnchor
+                .constraint(equalTo: leadingAnchor, constant: 16),
+            
+            saveButton.trailingAnchor
+                .constraint(equalTo: trailingAnchor, constant: -16),
+            
+            saveButton.bottomAnchor
+                .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        ])
     }
 }
 

@@ -13,10 +13,21 @@ protocol TaskDetailViewControllerProtocol: UIViewController {
 
 final class TaskDetailViewController: UIViewController {
     
+    private let task: ListModel
+    
     private lazy var contentView: TaskDetailDisplayView = {
         let view = TaskDetailView()
         return view
     }()
+    
+    init(task: ListModel) {
+        self.task = task
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = contentView
@@ -24,6 +35,7 @@ final class TaskDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentView.configure(with: task)
     }
 }
 

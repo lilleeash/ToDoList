@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AddTaskViewDelegate {
-    func didSaveButtonTapped()
+    func didSaveButtonTapped(model: ListModel)
 }
 
 protocol AddTaskDisplayView: UIView {
@@ -70,7 +70,7 @@ final class AddTaskView: UIView {
     
     private lazy var dataPickerManager = AddTaskPickerManager()
     
-    private lazy var dataPicker = UIDatePicker()
+    private lazy var datePicker = UIDatePicker()
     
     private let saveButtonAnimation: CASpringAnimation = {
         let animation = CASpringAnimation(keyPath: "transform.scale")
@@ -106,7 +106,17 @@ extension AddTaskView: AddTaskDisplayView {
 private extension AddTaskView {
     
     @objc private func didSaveButtonTapped(sender: UIButton) {
-        delegate?.didSaveButtonTapped()
+        
+        let model: ListModel = ListModel(
+            id: UUID(),
+            title: titleTextField.text ?? "",
+            description: descriptionTextField.text ?? "",
+            date: datePicker.date,
+            category: dataPickerManager.dataPicker[picker.selectedRow(inComponent: 0)],
+            isCompleted: false
+        )
+        
+        delegate?.didSaveButtonTapped(model: model)
         saveButton.layer.add(saveButtonAnimation, forKey: "saveButtonAnimation")
     }
     
@@ -115,7 +125,7 @@ private extension AddTaskView {
             titleTextField,
             descriptionTextField,
             picker,
-            dataPicker,
+            datePicker,
             saveButton
         ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -158,17 +168,17 @@ private extension AddTaskView {
             picker.topAnchor
                 .constraint(equalTo: descriptionTextField.bottomAnchor, constant: Constants.padding),
             picker.bottomAnchor
-                .constraint(equalTo: dataPicker.topAnchor, constant: -Constants.padding)
+                .constraint(equalTo: datePicker.topAnchor, constant: -Constants.padding)
         ])
         
         NSLayoutConstraint.activate([
-            dataPicker.leftAnchor
+            datePicker.leftAnchor
                 .constraint(equalTo: leftAnchor, constant: Constants.padding),
-            dataPicker.rightAnchor
+            datePicker.rightAnchor
                 .constraint(equalTo: rightAnchor, constant: -Constants.padding),
-            dataPicker.topAnchor
+            datePicker.topAnchor
                 .constraint(equalTo: picker.bottomAnchor, constant: Constants.padding),
-            dataPicker.bottomAnchor
+            datePicker.bottomAnchor
                 .constraint(equalTo: saveButton.topAnchor, constant: -Constants.padding)
         ])
         
@@ -178,7 +188,7 @@ private extension AddTaskView {
             saveButton.rightAnchor
                 .constraint(equalTo: rightAnchor, constant: -Constants.padding),
             saveButton.topAnchor
-                .constraint(equalTo: dataPicker.bottomAnchor, constant: Constants.padding),
+                .constraint(equalTo: datePicker.bottomAnchor, constant: Constants.padding),
             saveButton.bottomAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.padding),
             saveButton.heightAnchor

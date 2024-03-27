@@ -49,11 +49,4 @@ extension ListTableManager: UITableViewDelegate, UITableViewDataSource {
         let model = tableData[indexPath.row]
         delegate?.didSelectRow(model)
     }
-    
-//    func tableView(
-//        _ tableView: UITableView,
-//        heightForRowAt indexPath: IndexPath
-//    ) -> CGFloat {
-//        return UITableView.noIntrinsicMetric
-//    }
 }
